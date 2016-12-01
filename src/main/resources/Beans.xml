@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+        http://www.springframework.org/schema/aop
+ 		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc">
+
+    <bean id="userServiceImpl" class="ua.epam.spring.hometask.service.UserServiceImpl">
+        <property name="userDao" ref="userDaoImpl"/>
+    </bean>
+
+    <bean id="userDaoImpl" class="ua.epam.spring.hometask.dao.UserDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="auditoriumServiceImpl" class="ua.epam.spring.hometask.service.AuditoriumServiceImpl">
+        <property name="auditoriumDao" ref="auditoriumDaoImpl"/>
+    </bean>
+
+    <bean id="auditoriumDaoImpl" class="ua.epam.spring.hometask.dao.AuditoriumDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="eventServiceImpl" class="ua.epam.spring.hometask.service.EventServiceImpl">
+        <property name="eventDao" ref="eventDaoImpl"/>
+    </bean>
+
+    <bean id="eventDaoImpl" class="ua.epam.spring.hometask.dao.EventDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="discountServiceImpl" class="ua.epam.spring.hometask.service.DiscountServiceImpl"/>
+
+    <bean id="bookingServiceImpl" class="ua.epam.spring.hometask.service.BookingServiceImpl">
+        <property name="discountService" ref="discountServiceImpl"/>
+    </bean>
+
+
+    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script location="classpath:db/sql/create-db.sql" />
+        <jdbc:script location="classpath:db/sql/insert-data.sql" />
+    </jdbc:embedded-database>
+
+    <aop:aspectj-autoproxy />
+
+</beans>
