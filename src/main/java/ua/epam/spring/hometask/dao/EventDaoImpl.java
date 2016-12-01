@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Wojciech_Soltys on 30.11.2016.
@@ -42,7 +41,7 @@ public class EventDaoImpl implements EventDao {
                 eventRowCallbackHandler,
                 name
         );
-        return ((List<Event>)eventRowCallbackHandler.getEvents()).get(0);
+        return eventRowCallbackHandler.getFirst();
     }
 
     @Override
@@ -94,7 +93,7 @@ public class EventDaoImpl implements EventDao {
                 eventRowCallbackHandler,
                 id
         );
-        return ((List<Event>)eventRowCallbackHandler.getEvents()).get(0);
+        return eventRowCallbackHandler.getFirst();
     }
 
     @Nonnull
@@ -112,6 +111,6 @@ public class EventDaoImpl implements EventDao {
                 SELECT_SQL,
                 eventRowCallbackHandler
         );
-        return eventRowCallbackHandler.getEvents();
+        return eventRowCallbackHandler.getAll();
     }
 }

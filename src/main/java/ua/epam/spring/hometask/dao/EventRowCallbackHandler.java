@@ -9,20 +9,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Wojciech_Soltys on 30.11.2016.
  */
 public class EventRowCallbackHandler implements RowCallbackHandler {
 
-    private Collection<Event> events = new ArrayList<>();
+    private List<Event> events = new ArrayList<>();
 
-    public Collection<Event> getEvents() {
+    public List<Event> getAll() {
         return events;
+    }
+
+    public Event getFirst() {
+        if (events.size() == 0) {
+            return null;
+        }
+        return events.get(0);
     }
 
     private Event currentEvent;
