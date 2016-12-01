@@ -11,7 +11,6 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -72,7 +71,7 @@ public class AuditoriumDaoImpl implements AuditoriumDao {
                 auditoriumRowCallbackHandler,
                 id
         );
-        return ((List<Auditorium>)auditoriumRowCallbackHandler.getAuditoriums()).get(0);
+        return auditoriumRowCallbackHandler.getFirst();
     }
 
     @Override
@@ -85,7 +84,7 @@ public class AuditoriumDaoImpl implements AuditoriumDao {
                 SELECT_SQL,
                 auditoriumRowCallbackHandler
         );
-        return new HashSet<>(auditoriumRowCallbackHandler.getAuditoriums());
+        return new HashSet<>(auditoriumRowCallbackHandler.getAll());
     }
 
     @Override
@@ -100,6 +99,6 @@ public class AuditoriumDaoImpl implements AuditoriumDao {
                 auditoriumRowCallbackHandler,
                 name
         );
-        return ((List<Auditorium>)auditoriumRowCallbackHandler.getAuditoriums()).get(0);
+        return auditoriumRowCallbackHandler.getFirst();
     }
 }

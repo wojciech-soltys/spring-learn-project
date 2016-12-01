@@ -5,20 +5,24 @@ import ua.epam.spring.hometask.domain.Auditorium;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Wojciech_Soltys on 28.11.2016.
  */
 public class AuditoriumRowCallbackHandler implements RowCallbackHandler {
 
-    private Collection<Auditorium> auditoriums = new ArrayList<>();
+    private List<Auditorium> auditoriums = new ArrayList<>();
 
-    public Collection<Auditorium> getAuditoriums() {
+    public List<Auditorium> getAll() {
         return auditoriums;
+    }
+
+    public Auditorium getFirst() {
+        if (auditoriums.size() == 0) {
+            return null;
+        }
+        return auditoriums.get(0);
     }
 
     private Auditorium currentAuditorium;
