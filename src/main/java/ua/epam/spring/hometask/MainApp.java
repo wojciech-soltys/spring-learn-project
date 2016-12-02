@@ -6,10 +6,7 @@ package ua.epam.spring.hometask;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.epam.spring.hometask.domain.Auditorium;
-import ua.epam.spring.hometask.domain.Event;
-import ua.epam.spring.hometask.domain.EventRating;
-import ua.epam.spring.hometask.domain.User;
+import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.*;
 
 import java.time.LocalDateTime;
@@ -32,6 +29,13 @@ public class MainApp {
         saveUser.setEmail("email");
         saveUser = userService.save(saveUser);
         System.out.println(saveUser);
+
+        User saveUser1 = new User();
+        saveUser1.setFirstName("firstName1");
+        saveUser1.setLastName("lastName1");
+        saveUser1.setEmail("email1");
+        saveUser1 = userService.save(saveUser1);
+        System.out.println(saveUser1);
 
         //userService.remove(saveUser);
 
@@ -56,27 +60,45 @@ public class MainApp {
         auditoriumService.save(auditorium);
         System.out.println(auditoriumService.getAll());
 
-        EventService eventService = (EventServiceImpl) context.getBean("eventServiceImpl");
+        EventService eventService = (EventService) context.getBean("eventServiceImpl");
+        System.out.println(eventService.getByName("EVENT"));
         System.out.println(eventService.getByName("EVENT"));
 
         System.out.println(eventService.getById(1L));
 
         System.out.println(eventService.getAll());
 
+        LocalDateTime dateTime = LocalDateTime.of(2016, Month.DECEMBER, 15, 20, 30);
+        LocalDateTime dateTime1 = LocalDateTime.of(2016, Month.DECEMBER, 15, 21, 30);
         Event event = new Event();
         event.setName("EVENT3");
         event.setBasePrice(10.0);
         event.setRating(EventRating.LOW);
-        event.getAuditoriums().put(LocalDateTime.of(2016, Month.DECEMBER, 15, 20, 30) , auditorium);
+        event.getAuditoriums().put(dateTime, auditorium);
 
         eventService.save(event);
         System.out.println(eventService.getAll());
 
+        Event event1 = new Event();
+        event1.setName("EVENT3");
+        event1.setBasePrice(12.0);
+        event1.setRating(EventRating.MID);
+        event1.getAuditoriums().put(dateTime1, auditorium);
+
         //eventService.remove(event);
         //System.out.println(eventService.getAll());
 
-        BookingService bookingServiceService = (BookingServiceImpl) context.getBean("bookingServiceImpl");
-        System.out.println(bookingServiceService.getTicketsPrice(event, LocalDateTime.of(2016, Month.DECEMBER, 15, 20, 30),
-                saveUser, new HashSet<>(Arrays.asList(new Integer[]{1,2,5,6}))));
+        BookingService bookingServiceService = (BookingService) context.getBean("bookingServiceImpl");
+        System.out.println(bookingServiceService.getTicketsPrice(event, dateTime, saveUser,
+                new HashSet<>(Arrays.asList(new Integer[]{1,2,5,6}))));
+        System.out.println(bookingServiceService.getTicketsPrice(event, dateTime, saveUser,
+                new HashSet<>(Arrays.asList(new Integer[]{1,2,5,6}))));
+
+        Ticket ticket = new Ticket(saveUser, event, dateTime, 1L);
+        Ticket ticket1 = new Ticket(saveUser1, event1, dateTime1, 2L);
+        //Set<Ticket> tickets = new HashSet<>(Arrays.asList(new Ticket[]{ticket, ticket1}));
+        //bookingServiceService.bookTickets(tickets);
+        bookingServiceService.bookTicket(ticket);
+        System.out.println(ticket.getUser().getLuckyTickets());
     }
 }

@@ -1,13 +1,13 @@
 package ua.epam.spring.hometask.domain;
 
-import java.util.NavigableSet;
-import java.util.Objects;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author Yuriy_Tkach
  */
 public class User extends DomainObject {
+
+    private static Random random = new Random();
 
     private String firstName;
 
@@ -15,7 +15,7 @@ public class User extends DomainObject {
 
     private String email;
 
-    private NavigableSet<Ticket> tickets = new TreeSet<>();
+    private Map<Ticket, Boolean> luckyTickets = new HashMap<>();
 
     public String getFirstName() {
         return firstName;
@@ -41,12 +41,14 @@ public class User extends DomainObject {
         this.email = email;
     }
 
-    public NavigableSet<Ticket> getTickets() {
-        return tickets;
+    public boolean isLuckyTicketForUser(Ticket ticket) {
+        boolean isLucky = random.nextBoolean();
+        luckyTickets.put(ticket, isLucky);
+        return isLucky;
     }
 
-    public void setTickets(NavigableSet<Ticket> tickets) {
-        this.tickets = tickets;
+    public Map<Ticket, Boolean> getLuckyTickets() {
+        return luckyTickets;
     }
 
     @Override
@@ -97,7 +99,6 @@ public class User extends DomainObject {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", tickets=" + tickets +
                 '}';
     }
 }
