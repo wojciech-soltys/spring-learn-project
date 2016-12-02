@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 public class MainApp {
     public static void main(String[] args) {
@@ -96,9 +97,7 @@ public class MainApp {
 
         Ticket ticket = new Ticket(saveUser, event, dateTime, 1L);
         Ticket ticket1 = new Ticket(saveUser1, event1, dateTime1, 2L);
-        //Set<Ticket> tickets = new HashSet<>(Arrays.asList(new Ticket[]{ticket, ticket1}));
-        //bookingServiceService.bookTickets(tickets);
-        bookingServiceService.bookTicket(ticket);
-        System.out.println(ticket.getUser().getLuckyTickets());
+        Set<Ticket> tickets = new HashSet<>(Arrays.asList(new Ticket[]{ticket, ticket1}));
+        bookingServiceService.bookTickets(tickets);
     }
 }

@@ -7,15 +7,11 @@ import java.util.*;
  */
 public class User extends DomainObject {
 
-    private static Random random = new Random();
-
     private String firstName;
 
     private String lastName;
 
     private String email;
-
-    private Map<Ticket, Boolean> luckyTickets = new HashMap<>();
 
     public String getFirstName() {
         return firstName;
@@ -39,16 +35,6 @@ public class User extends DomainObject {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isLuckyTicketForUser(Ticket ticket) {
-        boolean isLucky = random.nextBoolean();
-        luckyTickets.put(ticket, isLucky);
-        return isLucky;
-    }
-
-    public Map<Ticket, Boolean> getLuckyTickets() {
-        return luckyTickets;
     }
 
     @Override
