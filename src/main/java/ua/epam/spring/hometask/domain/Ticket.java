@@ -8,6 +8,8 @@ import java.util.Objects;
  */
 public class Ticket extends DomainObject implements Comparable<Ticket> {
 
+    private double ticketPrice;
+
     private User user;
 
     private Event event;
@@ -15,6 +17,8 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
     private LocalDateTime dateTime;
 
     private long seat;
+
+    private boolean isLuckyTicket = false;
 
     public Ticket(User user, Event event, LocalDateTime dateTime, long seat) {
         this.user = user;
@@ -37,6 +41,22 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
 
     public long getSeat() {
         return seat;
+    }
+
+    public boolean isLuckyTicket() {
+        return isLuckyTicket;
+    }
+
+    public void setLuckyTicket(boolean luckyTicket) {
+        isLuckyTicket = luckyTicket;
+    }
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     @Override

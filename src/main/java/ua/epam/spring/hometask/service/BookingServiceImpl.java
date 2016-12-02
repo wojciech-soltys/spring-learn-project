@@ -38,16 +38,15 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-        tickets.forEach((v) -> {
-            bookTicket(v);
+        tickets.forEach((ticket) -> {
+            if(ticket.isLuckyTicket()) {
+                ticket.setTicketPrice(0.0);
+            } else {
+                ticket.setTicketPrice(getTicketsPrice(ticket.getEvent(), ticket.getDateTime(), ticket.getUser(),
+                        new HashSet<>(Arrays.asList(new Integer[]{(int) ticket.getSeat()}))));
+            }
+            System.out.println("Ticket Booked! Price: " + ticket.getTicketPrice());
         });
-    }
-
-    @Override
-    public void bookTicket(@Nonnull Ticket ticket) {
-        double ticketPrice = getTicketsPrice(ticket.getEvent(), ticket.getDateTime(), ticket.getUser(),
-                new HashSet<>(Arrays.asList(new Integer[]{(int) ticket.getSeat()})));
-        System.out.println("Ticket Price: " + ticketPrice);
     }
 
     @Nonnull

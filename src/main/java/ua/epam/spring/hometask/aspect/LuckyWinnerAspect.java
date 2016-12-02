@@ -5,8 +5,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.epam.spring.hometask.domain.Ticket;
-import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.BookingService;
+
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by Wojciech_Soltys on 02.12.2016.
@@ -21,12 +23,11 @@ public class LuckyWinnerAspect {
         this.bookingService = bookingService;
     }
 
-    @Before("execution(* bookTicket(..)) && args(ticket)")
-    public void checkIfUserIsLucky(JoinPoint joinPoint, Ticket ticket) {
-        User user = ticket.getUser();
-        if(user.isLuckyTicketForUser(ticket)) {
-            System.out.println("LUCKY WINNER ASPECT - YOU ARE LUCKY TICKET PRICE IS 0");
-            bookingService.bookTicket(ticket);
-        }
+    private static Random random = new Random();
+
+    @Before("execution(* bookTickets(..)) && args(tickets)")
+    public void checkIfTicketIsLucky(JoinPoint joinPoint, Set<Ticket> tickets) {
+        System.out.println("test");
+        tickets.forEach((value) -> value.setLuckyTicket(random.nextBoolean()));
     }
 }
