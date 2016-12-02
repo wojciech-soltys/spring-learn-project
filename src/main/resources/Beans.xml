@@ -41,7 +41,6 @@
         <property name="discountService" ref="discountServiceImpl"/>
     </bean>
 
-
     <jdbc:embedded-database id="dataSource" type="H2">
         <jdbc:script location="classpath:db/sql/create-db.sql" />
         <jdbc:script location="classpath:db/sql/insert-data.sql" />
@@ -49,4 +48,9 @@
 
     <aop:aspectj-autoproxy />
 
+    <bean id="counterAspect" class="ua.epam.spring.hometask.aspect.CounterAspect"/>
+    <bean id="discountAspect" class="ua.epam.spring.hometask.aspect.DiscountAspect"/>
+    <bean id="luckyWinnerAspect" class="ua.epam.spring.hometask.aspect.LuckyWinnerAspect">
+        <property name="bookingService" ref="bookingServiceImpl"/>
+    </bean>
 </beans>

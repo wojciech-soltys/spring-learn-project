@@ -9,6 +9,8 @@ import ua.epam.spring.hometask.domain.User;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,7 +38,16 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
+        tickets.forEach((v) -> {
+            bookTicket(v);
+        });
+    }
 
+    @Override
+    public void bookTicket(@Nonnull Ticket ticket) {
+        double ticketPrice = getTicketsPrice(ticket.getEvent(), ticket.getDateTime(), ticket.getUser(),
+                new HashSet<>(Arrays.asList(new Integer[]{(int) ticket.getSeat()})));
+        System.out.println("Ticket Price: " + ticketPrice);
     }
 
     @Nonnull
