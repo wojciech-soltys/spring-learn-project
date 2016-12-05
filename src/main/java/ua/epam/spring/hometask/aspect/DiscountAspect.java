@@ -24,8 +24,7 @@ public class DiscountAspect {
 
     @Before("execution(* ua.epam.spring.hometask.service.DiscountService.getDiscount(..)) && args(user,..)")
     public void countBeforeGetDiscountForEvent(JoinPoint joinPoint, User user) {
-        eventsDiscountCounter.computeIfAbsent(user, (k) -> 0L);
-        eventsDiscountCounter.computeIfPresent(user, (k,v) -> v+1);
+        eventsDiscountCounter.compute(user, (k,v) -> (v==null ? 1 : v+1));
         System.out.println("DISCOUNT COUNT FOR USER " + user.getFirstName() + " " + user.getLastName() + ": "
                 + eventsDiscountCounter.get(user));
     }

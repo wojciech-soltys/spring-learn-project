@@ -25,15 +25,13 @@ public class CounterAspect {
             returning = "retVal")
     public void countBeforeGetEventByName(Object retVal) {
         Event event = (Event) retVal;
-        counterEventByName.computeIfAbsent(event, (k) -> 0L);
-        counterEventByName.computeIfPresent(event, (k,v) -> v+1);
+        counterEventByName.compute(event, (k,v) -> (v==null ? 1 : v+1));
         System.out.println("GET BY NAME COUNT FOR " + event.getName() + ": " + counterEventByName.get(event));
     }
 
     @Before("execution(* ua.epam.spring.hometask.service.BookingService.getTicketsPrice(..)) && args(event,..)")
     public void countAfterGetEventPrice(JoinPoint joinPoint, Event event) {
-        counterGetEventPrice.computeIfAbsent(event, (k) -> 0L);
-        counterGetEventPrice.computeIfPresent(event, (k,v) -> v+1);
+        counterGetEventPrice.compute(event, (k,v) -> (v==null ? 1 : v+1));
         System.out.println("GET PRICE COUNT FOR EVENT " + event.getName() + ": " + counterGetEventPrice.get(event));
     }
 
@@ -41,8 +39,7 @@ public class CounterAspect {
     public void countAfterGetEventPrice(JoinPoint joinPoint, Set<Ticket> tickets) {
         tickets.forEach((value) -> {
             Event event = value.getEvent();
-            counterBookEvent.computeIfAbsent(event, (k) -> 0L);
-            counterBookEvent.computeIfPresent(event, (k,v) -> v+1);
+            counterBookEvent.compute(event, (k,v) -> (v==null ? 1 : v+1));
             System.out.println("GET BOOK TICKET COUNT FOR EVENT " + event.getName() + ": " + counterBookEvent.get(event));
         });
     }
